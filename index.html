@@ -140,18 +140,99 @@
   // ✅ هنا تحط كل الشخصيات “ثابتة” وتقدر تعدّلها مستقبلًا
   // كل عنصر: id فريد + name + rarity + (اختياري) image
   const CHARACTERS = [
-    // مثال (بدّلها بقائمة الصورة كاملة):
-    { id:"boneca_ambalabu", name:"Boneca Ambalabu", rarity:"Basic", image:"" },
-    { id:"tobi_tob", name:"Tobi Tob", rarity:"Basic", image:"" },
-    { id:"trippi_tropa", name:"Trippi Tropa", rarity:"Basic", image:"" },
 
-    // مثال من العمود الأوسط:
-    { id:"brodo_axolito", name:"Brodo Axolito", rarity:"Mythical", image:"" },
-    { id:"bombardino_crocodilo", name:"Bombardino Crocodilo", rarity:"Mythical", image:"" },
+/* ================= BASIC ================= */
+{ id:"boneca_ambalabu", name:"Boneca Ambalabu", rarity:"Basic" },
+{ id:"tobi_tob", name:"Tobi Tob", rarity:"Basic" },
+{ id:"trippi_tropi", name:"Trippi Tropi", rarity:"Basic" },
+{ id:"trulimero_trulichin", name:"Trulimero Trulichin", rarity:"Basic" },
 
-    // مثال من العمود الأيمن:
-    { id:"guerrro_digitale", name:"Guerro Digitale", rarity:"Secret", image:"" },
-  ];
+/* ================= COMMON ================= */
+{ id:"cacto_hipopotamo", name:"Cacto Hipopotamo", rarity:"Common" },
+{ id:"liri_larila", name:"Liri Larila", rarity:"Common" },
+{ id:"svino_bombondino", name:"Svino Bombondino", rarity:"Common" },
+{ id:"tric_trac_barabum", name:"Tric Trac Barabum", rarity:"Common" },
+
+/* ================= RARE ================= */
+{ id:"bananita_dolphinita", name:"Bananita Dolphinita", rarity:"Rare" },
+{ id:"bobrito_bandito", name:"Bobrito Bandito", rarity:"Rare" },
+{ id:"bombombini_gusini", name:"Bombombini Gusini", rarity:"Rare" },
+{ id:"giraffa_mafiosa", name:"Giraffa Mafiosa", rarity:"Rare" },
+{ id:"ta_ta_sahur", name:"Ta Ta Sahur", rarity:"Rare" },
+{ id:"tim_cheese", name:"Tim Cheese", rarity:"Rare" },
+
+/* ================= EPIC ================= */
+{ id:"avocadini_guffo", name:"Avocadini Guffo", rarity:"Epic" },
+{ id:"ballerino_lollo", name:"Ballerino Lollo", rarity:"Epic" },
+{ id:"ballerina_cappuccina", name:"Ballerina Cappuccina", rarity:"Epic" },
+{ id:"cappuccino_assassino", name:"Cappuccino Assassino", rarity:"Epic" },
+{ id:"chef_crabracadabra", name:"Chef Crabracadabra", rarity:"Epic" },
+{ id:"pipi_kiwi", name:"Pipi Kiwi", rarity:"Epic" },
+
+/* ================= LEGENDARY ================= */
+{ id:"anapali", name:"Anapali", rarity:"Legendary" },
+{ id:"bambini_crostini", name:"Bambini Crostini", rarity:"Legendary" },
+{ id:"brbr_patapim", name:"BrBr Patapim", rarity:"Legendary" },
+{ id:"burbaloni_luliloli", name:"Burbaloni Luliloli", rarity:"Legendary" },
+{ id:"coco_fanto", name:"Coco Fanto", rarity:"Legendary" },
+{ id:"strawberelli_flamingello", name:"Strawberelli Flamingello", rarity:"Legendary" },
+{ id:"tralalelo", name:"Tralalelo", rarity:"Legendary" },
+
+/* ================= MYTHICAL ================= */
+{ id:"bnodo_axolito", name:"Bnodo Axolito", rarity:"Mythical" },
+{ id:"bombardino_crocodilo", name:"Bombardino Crocodilo", rarity:"Mythical" },
+{ id:"dragon", name:"Dragon", rarity:"Mythical" },
+{ id:"espresso_signora", name:"Espresso Signora", rarity:"Mythical" },
+{ id:"frigo_camelo", name:"Frigo Camelo", rarity:"Mythical" },
+{ id:"gangster_footera", name:"Gangster Footera", rarity:"Mythical" },
+{ id:"glorbo_frutodrilo", name:"Glorbo Frutodrilo", rarity:"Mythical" },
+{ id:"sigma_boy", name:"Sigma Boy", rarity:"Mythical" },
+
+/* ================= BRAINROT GOD ================= */
+{ id:"agarinni", name:"Agarinni", rarity:"Brainrot God" },
+{ id:"alessio", name:"Alessio", rarity:"Brainrot God" },
+{ id:"67", name:"67", rarity:"Brainrot God" },
+{ id:"bandito_tracotino", name:"Bandito Tracotino", rarity:"Brainrot God" },
+{ id:"la_vaca", name:"La Vaca", rarity:"Brainrot God" },
+{ id:"hotspot_burrito", name:"Hotspot Burrito", rarity:"Brainrot God" },
+{ id:"rhino_toasterino", name:"Rhino Toasterino", rarity:"Brainrot God" },
+{ id:"bicelliera", name:"Bicelliera", rarity:"Brainrot God" },
+{ id:"chimp_spiderini", name:"Chimp Spiderini", rarity:"Brainrot God" },
+{ id:"grapjuss_medussi", name:"Grapjuss Medussi", rarity:"Brainrot God" },
+{ id:"job_job_sahur", name:"Job Job Sahur", rarity:"Brainrot God" },
+{ id:"trenosuzzo_3000", name:"Trenosuzzo 3000", rarity:"Brainrot God" },
+{ id:"odin_din_dun", name:"Odin Din Dun", rarity:"Brainrot God" },
+
+/* ================= SECRET ================= */
+{ id:"guerro_digitale", name:"Guerro Digitale", rarity:"Secret" },
+{ id:"mutant_rot", name:"Mutant Rot", rarity:"Secret" },
+{ id:"pakrhamat", name:"Pakrhamat", rarity:"Secret" },
+{ id:"piccione_macchina", name:"Piccione Macchina", rarity:"Secret" },
+{ id:"swag_soda", name:"Swag Soda", rarity:"Secret" },
+{ id:"chocolatin", name:"Chocolatin", rarity:"Secret" },
+{ id:"esok_sekolah", name:"Esok Sekolah", rarity:"Secret" },
+{ id:"karkerkur_kur", name:"Karkerkur Kur", rarity:"Secret" },
+{ id:"lemon_chello", name:"Lemon Chello", rarity:"Secret" },
+{ id:"pot_hotspot", name:"Pot Hotspot", rarity:"Secret" },
+{ id:"los_orcalitos", name:"Los Orcalitos", rarity:"Secret" },
+{ id:"dragon_furtini", name:"Dragon Furtini", rarity:"Secret" },
+
+/* ================= FORBIDDEN ================= */
+{ id:"las_tralaleritas", name:"Las Tralaleritas", rarity:"Forbidden" },
+{ id:"kid67", name:"Kid67", rarity:"Forbidden" },
+{ id:"no_my_candy", name:"No My Candy", rarity:"Forbidden" },
+{ id:"stoppo_lumino", name:"Stoppo Lumino", rarity:"Forbidden" },
+{ id:"tigroligre", name:"Tigroligre", rarity:"Forbidden" },
+{ id:"duldul", name:"DulDul", rarity:"Forbidden" },
+{ id:"ketchup_mustard", name:"Ketchup Mustard", rarity:"Forbidden" },
+
+/* ================= OMEGA ================= */
+{ id:"68", name:"68", rarity:"Omega" },
+{ id:"leaf_leaf_sahur", name:"Leaf Leaf Sahur", rarity:"Omega" },
+{ id:"tic_tac_sahur", name:"Tic Tac Sahur", rarity:"Omega" },
+{ id:"strawberry_elephant", name:"Strawberry Elephant", rarity:"Omega" },
+
+];
 
   /***********************
    * 2) تخزين محلي + سحابي
