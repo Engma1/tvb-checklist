@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tsunami vs Brainrot - Index Checklist</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#0f1a33; --text:#e8eefc; --muted:#a9b6d6;
+      --grid:#223055; --accent:#7aa2ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+    header{position:sticky;top:0;z-index:5;background:rgba(11,18,32,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid)}
+    .wrap{max-width:1200px;margin:0 auto;padding:14px 16px}
+    h1{margin:0;font-size:18px}
+    .sub{margin-top:6px;color:var(--muted);font-size:13px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .btn{
+      cursor:pointer;border:1px solid var(--grid);background:var(--card);color:var(--text);
+      padding:8px 10px;border-radius:10px;font-size:13px
+    }
+    .btn:hover{border-color:var(--accent)}
+    .status{font-size:12px;color:var(--muted)}
+    .pill{padding:3px 8px;border-radius:999px;border:1px solid var(--grid);font-size:12px}
+    .gridCard{background:var(--card);border:1px solid var(--grid);border-radius:14px;overflow:hidden;margin-top:14px}
+    .tableWrap{overflow:auto;max-height:75vh}
+    table{border-collapse:separate;border-spacing:0;min-width:980px;width:100%}
+    thead th{
+      position:sticky;top:0;z-index:3;
+      background:linear-gradient(to bottom, rgba(15,26,51,.98), rgba(15,26,51,.92));
+      border-bottom:1px solid var(--grid);
+      padding:10px 8px;font-size:12px;white-space:nowrap;text-align:center
+    }
+    th:first-child, td:first-child{
+      position:sticky;right:0;z-index:4;background:rgba(15,26,51,.98);
+      border-left:1px solid var(--grid);
+      text-align:right;
+      min-width:260px;
+    }
+    tbody td, tbody th{
+      border-bottom:1px solid var(--grid);
+      padding:8px;
+    }
+    tbody tr:hover td, tbody tr:hover th{background:rgba(122,162,255,.06)}
+    .char{
+      display:flex;align-items:center;gap:10px;
+    }
+    .avatar{
+      width:34px;height:34px;border-radius:10px;background:#1b2a52;border:1px solid var(--grid);
+      display:grid;place-items:center;color:var(--muted);font-size:12px;flex:0 0 auto;
+      overflow:hidden;
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    .name{font-weight:600;font-size:13px}
+    .rarity{font-size:11px;color:var(--muted)}
+    .cell{
+      display:flex;justify-content:center;align-items:center
+    }
+    .box{
+      width:22px;height:22px;border-radius:6px;border:2px solid #cbd7ff33;
+      background:transparent;cursor:pointer;display:grid;place-items:center;
+      transition:transform .05s ease,border-color .15s ease,background .15s ease;
+      user-select:none;
+    }
+    .box:active{transform:scale(.95)}
+    .box.checked{
+      border-color:var(--accent);
+      background:rgba(122,162,255,.18);
+    }
+    .box.checked::after{
+      content:"✓";
+      font-weight:800;
+      color:var(--accent);
+      font-size:14px;
+      transform:translateY(-1px);
+    }
+
+    /* تلوين الأعمدة (اختياري مثل الصورة) */
+    .col-Gold{background:rgba(255,215,0,.08)}
+    .col-Diamond{background:rgba(130,190,255,.08)}
+    .col-Rainbow{background:rgba(255,105,180,.06)}
+    .col-RedMoon{background:rgba(255,80,80,.08)}
+    .col-Toxic{background:rgba(120,255,120,.07)}
+    .col-Candy{background:rgba(255,255,255,.03)}
+    .col-Admin{background:rgba(255,255,255,.03)}
+
+    .footerRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .small{font-size:12px;color:var(--muted)}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="wrap">
+    <h1>TSUNAMI vs. BRAINROT — Index Checklist</h1>
+    <div class="sub">
+      <button id="loginBtn" class="btn">تسجيل الدخول بـ Google</button>
+      <button id="logoutBtn" class="btn" style="display:none">تسجيل الخروج</button>
+      <button id="clearBtn" class="btn">تصفير تقدم هذا الجهاز</button>
+
+      <span id="userPill" class="pill" style="display:none"></span>
+      <span id="syncStatus" class="status">غير مسجّل دخول — الحفظ سيكون محليًا فقط</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="gridCard">
+    <div class="tableWrap">
+      <table id="tbl">
+        <thead>
+          <tr id="headRow"></tr>
+        </thead>
+        <tbody id="body"></tbody>
+      </table>
+    </div>
+    <div class="wrap footerRow">
+      <div class="small">Tip: سجّل دخولك عشان يتزامن التقدم بين الأجهزة ✅</div>
+      <div class="small" id="progressText"></div>
+    </div>
+  </div>
+</main>
+
+<script type="module">
+  /***********************
+   * 1) بيانات الجدول
+   ***********************/
+  const COLUMNS = [
+    { key: "Brainrot", label: "Brainrot" },
+    { key: "Defeat",   label: "Defeat"   },
+    { key: "Gold",     label: "Gold",     tdClass:"col-Gold" },
+    { key: "Diamond",  label: "Diamond",  tdClass:"col-Diamond" },
+    { key: "Rainbow",  label: "Rainbow",  tdClass:"col-Rainbow" },
+    { key: "RedMoon",  label: "Red Moon", tdClass:"col-RedMoon" },
+    { key: "Toxic",    label: "Toxic",    tdClass:"col-Toxic" },
+    { key: "Candy",    label: "Candy",    tdClass:"col-Candy" },
+    { key: "Admin",    label: "Admin",    tdClass:"col-Admin" },
+  ];
+
+  // ✅ هنا تحط كل الشخصيات “ثابتة” وتقدر تعدّلها مستقبلًا
+  // كل عنصر: id فريد + name + rarity + (اختياري) image
+  const CHARACTERS = [
+    // مثال (بدّلها بقائمة الصورة كاملة):
+    { id:"boneca_ambalabu", name:"Boneca Ambalabu", rarity:"Basic", image:"" },
+    { id:"tobi_tob", name:"Tobi Tob", rarity:"Basic", image:"" },
+    { id:"trippi_tropa", name:"Trippi Tropa", rarity:"Basic", image:"" },
+
+    // مثال من العمود الأوسط:
+    { id:"brodo_axolito", name:"Brodo Axolito", rarity:"Mythical", image:"" },
+    { id:"bombardino_crocodilo", name:"Bombardino Crocodilo", rarity:"Mythical", image:"" },
+
+    // مثال من العمود الأيمن:
+    { id:"guerrro_digitale", name:"Guerro Digitale", rarity:"Secret", image:"" },
+  ];
+
+  /***********************
+   * 2) تخزين محلي + سحابي
+   ***********************/
+  const LOCAL_KEY = "tvb_progress_v1";
+  let progress = loadLocal();      // { "<charId>__<colKey>": true/false }
+  let currentUser = null;          // firebase user
+  let remoteLoaded = false;
+  let saveTimer = null;
+
+  function cellKey(charId, colKey){ return `${charId}__${colKey}`; }
+
+  function loadLocal(){
+    try { return JSON.parse(localStorage.getItem(LOCAL_KEY) || "{}"); }
+    catch { return {}; }
+  }
+  function saveLocal(){
+    localStorage.setItem(LOCAL_KEY, JSON.stringify(progress));
+  }
+
+  function setSyncStatus(text){ document.getElementById("syncStatus").textContent = text; }
+
+  /***********************
+   * 3) بناء الجدول
+   ***********************/
+  const headRow = document.getElementById("headRow");
+  const body = document.getElementById("body");
+  const progressText = document.getElementById("progressText");
+
+  function render(){
+    // header
+    headRow.innerHTML = "";
+    const th0 = document.createElement("th");
+    th0.textContent = "Character";
+    headRow.appendChild(th0);
+    for(const c of COLUMNS){
+      const th = document.createElement("th");
+      th.textContent = c.label;
+      headRow.appendChild(th);
+    }
+
+    // body
+    body.innerHTML = "";
+    for(const ch of CHARACTERS){
+      const tr = document.createElement("tr");
+
+      // first sticky column
+      const th = document.createElement("th");
+      const box = document.createElement("div");
+      box.className = "char";
+      const av = document.createElement("div");
+      av.className = "avatar";
+      if(ch.image){
+        const im = document.createElement("img");
+        im.src = ch.image;
+        im.alt = ch.name;
+        av.appendChild(im);
+      } else {
+        av.textContent = ch.name.split(" ").slice(0,2).map(s=>s[0]).join("").toUpperCase();
+      }
+
+      const meta = document.createElement("div");
+      const nm = document.createElement("div");
+      nm.className = "name";
+      nm.textContent = ch.name;
+      const rr = document.createElement("div");
+      rr.className = "rarity";
+      rr.textContent = ch.rarity;
+      meta.appendChild(nm); meta.appendChild(rr);
+
+      box.appendChild(av); box.appendChild(meta);
+      th.appendChild(box);
+      tr.appendChild(th);
+
+      // cells
+      for(const col of COLUMNS){
+        const td = document.createElement("td");
+        if(col.tdClass) td.classList.add(col.tdClass);
+
+        const cell = document.createElement("div");
+        cell.className = "cell";
+
+        const b = document.createElement("div");
+        b.className = "box";
+        const k = cellKey(ch.id, col.key);
+        if(progress[k]) b.classList.add("checked");
+
+        b.addEventListener("click", () => {
+          progress[k] = !progress[k];
+          if(!progress[k]) delete progress[k];
+          b.classList.toggle("checked");
+          saveLocal();
+          updateProgressText();
+          scheduleRemoteSave();
+        });
+
+        cell.appendChild(b);
+        td.appendChild(cell);
+        tr.appendChild(td);
+      }
+
+      body.appendChild(tr);
+    }
+
+    updateProgressText();
+  }
+
+  function updateProgressText(){
+    const total = CHARACTERS.length * COLUMNS.length;
+    const done = Object.keys(progress).length;
+    progressText.textContent = `Progress: ${done} / ${total}`;
+  }
+
+  /***********************
+   * 4) Firebase (تزامن بين الأجهزة)
+   ***********************/
+  // Firebase v10 modular
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+  import {
+    getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+  import {
+    getFirestore, doc, getDoc, setDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+  // 🔥 ضع إعدادات مشروعك هنا (Firebase Console -> Project settings -> Web app)
+  const firebaseConfig = {
+    apiKey: "PASTE_HERE",
+    authDomain: "PASTE_HERE",
+    projectId: "PASTE_HERE",
+    appId: "PASTE_HERE",
+  };
+
+  let app=null, auth=null, db=null;
+
+  function firebaseReady(){
+    return firebaseConfig.apiKey !== "PASTE_HERE";
+  }
+
+  async function initFirebase(){
+    if(!firebaseReady()){
+      setSyncStatus("Firebase غير مفعّل — الحفظ سيكون محليًا فقط");
+      return;
+    }
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user || null;
+      document.getElementById("loginBtn").style.display = currentUser ? "none" : "inline-block";
+      document.getElementById("logoutBtn").style.display = currentUser ? "inline-block" : "none";
+
+      const userPill = document.getElementById("userPill");
+      if(currentUser){
+        userPill.style.display = "inline-block";
+        userPill.textContent = currentUser.email || "Signed in";
+        setSyncStatus("جاري تحميل التقدم من السحابة...");
+        await loadRemoteProgress();
+        setSyncStatus("✅ متزامن — أي تعديل يُحفظ تلقائيًا");
+      } else {
+        userPill.style.display = "none";
+        remoteLoaded = false;
+        setSyncStatus("غير مسجّل دخول — الحفظ سيكون محليًا فقط");
+      }
+    });
+  }
+
+  async function loadRemoteProgress(){
+    if(!currentUser || !db) return;
+    const ref = doc(db, "tvb_progress", currentUser.uid);
+    const snap = await getDoc(ref);
+    if(snap.exists()){
+      const data = snap.data();
+      if(data && data.progress && typeof data.progress === "object"){
+        progress = data.progress;
+        saveLocal(); // optional
+      }
+    } else {
+      // أول مرة: ارفع المحلي للسحابة
+      await setDoc(ref, { progress, updatedAt: Date.now() }, { merge:true });
+    }
+    remoteLoaded = true;
+    render(); // يعيد رسم العلامات
+  }
+
+  function scheduleRemoteSave(){
+    if(!currentUser || !db || !remoteLoaded) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(async () => {
+      try{
+        const ref = doc(db, "tvb_progress", currentUser.uid);
+        await setDoc(ref, { progress, updatedAt: Date.now() }, { merge:true });
+      } catch(e){
+        console.error(e);
+        setSyncStatus("⚠️ تعذر الحفظ السحابي (تحقق من إعدادات Firebase)");
+      }
+    }, 400);
+  }
+
+  /***********************
+   * 5) أزرار
+   ***********************/
+  document.getElementById("loginBtn").addEventListener("click", async () => {
+    if(!auth){ alert("فعّل Firebase config أولاً"); return; }
+    await signInWithPopup(auth, new GoogleAuthProvider());
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+    if(!auth) return;
+    await signOut(auth);
+  });
+
+  document.getElementById("clearBtn").addEventListener("click", () => {
+    if(confirm("أكيد تبغى تصفير التقدم المحلي؟")){
+      progress = {};
+      saveLocal();
+      render();
+      scheduleRemoteSave(); // لو مسجل دخول: يصفر بالسحابة أيضًا
+    }
+  });
+
+  // تشغيل
+  render();
+  initFirebase();
+</script>
+
+</body>
+</html>
