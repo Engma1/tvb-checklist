@@ -278,12 +278,23 @@
   } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
   // 🔥 ضع إعدادات مشروعك هنا (Firebase Console -> Project settings -> Web app)
-  const firebaseConfig = {
-    apiKey: "PASTE_HERE",
-    authDomain: "PASTE_HERE",
-    projectId: "PASTE_HERE",
-    appId: "PASTE_HERE",
-  };
+  // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCj8WnzUTxfeHhL-siaJf7jahcyGKxe5xg",
+  authDomain: "tsunami-vs-brainrot-55a2d.firebaseapp.com",
+  projectId: "tsunami-vs-brainrot-55a2d",
+  storageBucket: "tsunami-vs-brainrot-55a2d.firebasestorage.app",
+  messagingSenderId: "783635468347",
+  appId: "1:783635468347:web:3554cddfe2cc97c3a64c1e"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
   let app=null, auth=null, db=null;
 
